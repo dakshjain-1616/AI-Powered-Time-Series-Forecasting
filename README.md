@@ -151,7 +151,7 @@ tsPredictor/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/chronosight.git
+git clone https://github.com/dakshjain-1616/AI-Powered-Time-Series-Forecasting
 cd chronosight
 ```
 
