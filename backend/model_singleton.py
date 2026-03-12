@@ -3,7 +3,7 @@ TimesFM Model Singleton for ChronoSight backend.
 Loads and manages the google/timesfm-2.5-200m-transformers model.
 """
 import torch
-from transformers.models.timesfm.modeling_timesfm import TimesFmModelForPrediction
+from transformers.models.timesfm2_5.modeling_timesfm2_5 import TimesFm2_5ModelForPrediction
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -29,7 +29,7 @@ class TimesFMModel:
             logger.info(f"Using device: {self._device}")
 
             try:
-                self._model = TimesFmModelForPrediction.from_pretrained(
+                self._model = TimesFm2_5ModelForPrediction.from_pretrained(
                     "google/timesfm-2.5-200m-transformers",
                     attn_implementation="sdpa"
                 )

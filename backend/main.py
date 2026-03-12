@@ -1,6 +1,10 @@
 """
 FastAPI backend for ChronoSight time series forecasting tool.
 """
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -17,10 +21,11 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="ChronoSight API", version="1.0.0")
 
-# Enable CORS for localhost:5173
+# CORS origins — comma-separated list in CORS_ORIGINS env var, defaults to localhost dev server
+_cors_origins = [o.strip() for o in os.getenv("CORS_ORIGINS", "http://localhost:5173").split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=_cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -160,4 +165,6 @@ if __name__ == "__main__":
     # Pre-load model on startup
     logger.info("Pre-loading TimesFM model...")
     timesfm_singleton.load_model()
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", "8000"))
+    uvicorn.run(app, host=host, port=port)

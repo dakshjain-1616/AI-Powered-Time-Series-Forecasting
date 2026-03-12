@@ -45,8 +45,9 @@ export const useForecast = (): UseForecastReturn => {
       description: `Processing: ${request.problem_description}`,
     });
 
+    const apiBase = import.meta.env.VITE_API_BASE_URL ?? '';
     try {
-      const response = await fetch('/api/forecast', {
+      const response = await fetch(`${apiBase}/api/forecast`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(request),
